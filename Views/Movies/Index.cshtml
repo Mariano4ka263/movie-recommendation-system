@@ -1,0 +1,72 @@
+﻿@model IEnumerable<MovieRecommendationSystem.Models.Movie>
+
+@{
+    ViewData["Title"] = "Фільми/Серіали";
+}
+
+<div class="page-title-row">
+    <h1>Фільми та серіали</h1>
+</div>
+
+<form asp-action="Index" method="get" class="movie-search-form">
+    <div class="movie-search-box">
+        <input type="text"
+               name="searchString"
+               value="@ViewBag.SearchString"
+               placeholder="Пошук за назвою..."
+               class="movie-search-input" />
+
+        <button type="submit" class="movie-search-btn">
+            Пошук
+        </button>
+
+        <a asp-action="Index" class="movie-reset-btn">
+            Скинути
+        </a>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning" style="margin-bottom: 20px;">
+        За вашим запитом нічого не знайдено.
+    </div>
+}
+
+<div class="movie-grid">
+    @foreach (var item in Model)
+    {
+        <div class="movie-card">
+            <div class="movie-card-top"
+                 style="background:
+                             linear-gradient(rgba(2, 8, 23, 0.18), rgba(2, 8, 23, 0.60)),
+                             url('@item.PosterUrlOrDefault') center/cover no-repeat;">
+            </div>
+
+            <div class="movie-card-body">
+                <div class="movie-card-title">@item.Title</div>
+
+                <div class="movie-badges">
+                    <span class="badge-soft">@item.GenresText</span>
+                    <span class="badge-soft">@item.ReleaseYear</span>
+                </div>
+
+                <div class="movie-card-text">
+                    @(string.IsNullOrWhiteSpace(item.Description)
+                                    ? "Опис відсутній."
+                                    : item.Description)
+                </div>
+
+                <div class="movie-card-footer">
+                    <div class="movie-rating">
+                        ⭐ @(item.AverageRating > 0 ? item.AverageRating.ToString("0.0") : "Немає")
+                    </div>
+
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-light">
+                        Детальніше
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

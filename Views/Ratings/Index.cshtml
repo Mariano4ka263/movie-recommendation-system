@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MovieRecommendationSystem.Models.Rating>
+
+@{
+    ViewData["Title"] = "Оцінки";
+}
+
+<div class="page-title-row">
+    <h1>Оцінки</h1>
+</div>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Додати оцінку</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Користувач</th>
+            <th>Фільм / серіал</th>
+            <th>Оцінка</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(item.User?.Name ?? "Невідомий користувач")</td>
+                <td>@(item.Movie?.Title ?? "Назва відсутня")</td>
+                <td>@item.Score</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,20 @@
+﻿@model MovieRecommendationSystem.Models.User
+
+@{
+    ViewData["Title"] = "Деталі користувача";
+}
+
+<h1>Деталі користувача</h1>
+
+<div>
+    <h4>Користувач</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Ім'я користувача</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Редагувати</a> |
+    <a asp-action="Index">Назад до списку</a>
+</div>

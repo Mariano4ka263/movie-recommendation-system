@@ -1,0 +1,120 @@
+﻿@model MovieRecommendationSystem.Models.Movie
+
+@{
+    ViewData["Title"] = "Деталі";
+}
+
+<div class="page-title-row">
+    <h1>@Model.Title</h1>
+</div>
+
+<div class="details-layout">
+    <div class="details-poster-panel">
+        <img class="details-poster"
+             src="@Model.PosterUrlOrDefault"
+             alt="@Model.Title" />
+    </div>
+
+    <div class="content-panel">
+        <div class="movie-badges mb-3">
+            @if (!string.IsNullOrWhiteSpace(Model.GenresText))
+            {
+                <span class="badge-soft">@Model.GenresText</span>
+            }
+
+            <span class="badge-soft">
+                @(Model.ContentType == MovieRecommendationSystem.Models.ContentType.Movie ? "Фільм" : "Серіал")
+            </span>
+
+            <span class="badge-soft">@Model.ReleaseYear</span>
+
+            <span class="badge-soft">
+                @(Model.Status.HasValue? Model.Status.ToString() : "Статус не вказано")
+            </span>
+        </div>
+
+        <dl class="details-list">
+            <div>
+                <dt>Опис</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.Description) ? "Опис відсутній." : Model.Description)</dd>
+            </div>
+
+            <div>
+                <dt>Країна</dt>
+                <dd>@(Model.Country != null ? Model.Country.Name : "Не вказано")</dd>
+            </div>
+
+            <div>
+                <dt>Режисер</dt>
+                <dd>@(Model.Director != null ? Model.Director.FullName : "Не вказано")</dd>
+            </div>
+
+            <div>
+                <dt>Актори</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.ActorsText) ? "Не вказано" : Model.ActorsText)</dd>
+            </div>
+
+            <div>
+                <dt>Середній рейтинг</dt>
+                <dd>
+                    @if (Model.AverageRating > 0)
+                    {
+                        @Model.AverageRating.ToString("0.0")
+                    }
+                    else
+                    {
+                        <span>Немає оцінок</span>
+                    }
+                </dd>
+            </div>
+        </dl>
+
+        <div class="mt-4 d-flex flex-wrap gap-2">
+            @if (!string.IsNullOrWhiteSpace(Model.TrailerUrl))
+            {
+                <a href="@Model.TrailerUrl"
+                   target="_blank"
+                   class="btn btn-success">
+                    Дивитися український трейлер
+                </a>
+            }
+
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Ratings"
+                   asp-action="Create"
+                   asp-route-movieId="@Model.Id"
+                   class="btn btn-primary">
+                    Поставити оцінку
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="btn btn-primary">
+                    Увійти, щоб оцінити
+                </a>
+            }
+
+            @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-warning">
+                    Редагувати
+                </a>
+
+                <a asp-action="Delete"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-danger">
+                    Видалити
+                </a>
+            }
+
+            <a asp-action="Index" class="btn btn-outline-light">
+                Назад
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿@model MovieRecommendationSystem.Models.Movie
+
+@{
+    ViewData["Title"] = "Видалити";
+}
+
+<div class="page-title-row">
+    <h1>Видалити запис</h1>
+</div>
+
+<div>
+    <h4>Ви дійсно хочете видалити цей запис?</h4>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-3">Назва</dt>
+        <dd class="col-sm-9">@Model.Title</dd>
+
+        <dt class="col-sm-3">Жанри</dt>
+        <dd class="col-sm-9">@Model.GenresText</dd>
+
+        <dt class="col-sm-3">Опис</dt>
+        <dd class="col-sm-9">@Model.Description</dd>
+
+        <dt class="col-sm-3">Рік випуску</dt>
+        <dd class="col-sm-9">@Model.ReleaseYear</dd>
+
+        <dt class="col-sm-3">Тип контенту</dt>
+        <dd class="col-sm-9">
+            @(Model.ContentType == MovieRecommendationSystem.Models.ContentType.Movie ? "Фільм" : "Серіал")
+        </dd>
+
+        <dt class="col-sm-3">Країна</dt>
+        <dd class="col-sm-9">@(Model.Country != null ? Model.Country.Name : "Не вказано")</dd>
+
+        <dt class="col-sm-3">Режисер</dt>
+        <dd class="col-sm-9">@(Model.Director != null ? Model.Director.FullName : "Не вказано")</dd>
+
+        <dt class="col-sm-3">В ролях</dt>
+        <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.ActorsText) ? "Не вказано" : Model.ActorsText)</dd>
+
+        <dt class="col-sm-3">Статус</dt>
+        <dd class="col-sm-9">@(Model.Status.HasValue? Model.Status.ToString() : "Не вказано")</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit" class="btn btn-danger">Видалити</button>
+        <a asp-action="Index" class="btn btn-outline-light">Скасувати</a>
+    </form>
+</div>

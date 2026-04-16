@@ -1,0 +1,39 @@
+@model MovieRecommendationSystem.Models.Rating
+
+@{
+    ViewData["Title"] = "??????";
+}
+
+<h1>??????</h1>
+
+<div>
+    <h4>??????</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            ??????????
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.User != null ? Model.User.Name : "????????")
+        </dd>
+
+        <dt class="col-sm-2">
+            ????? / ??????
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.Movie != null ? Model.Movie.Title : "????????")
+        </dd>
+
+        <dt class="col-sm-2">
+            ??????
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Score
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">??????????</a>
+    <a asp-action="Index" class="btn btn-outline-light">????? ?? ??????</a>
+</div>

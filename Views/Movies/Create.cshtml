@@ -1,0 +1,113 @@
+@model MovieRecommendationSystem.ViewModels.MovieFormViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using MovieRecommendationSystem.Models
+
+@{
+    ViewData["Title"] = "Додати запис";
+    var contentTypes = ViewBag.ContentTypes as List<SelectListItem> ?? new();
+    var statuses = ViewBag.Statuses as List<SelectListItem> ?? new();
+    var genreList = ViewBag.GenreList as IEnumerable<MovieRecommendationSystem.Models.Genre> ?? new List<MovieRecommendationSystem.Models.Genre>();
+}
+
+<div class="page-title-row">
+    <h1>Додати новий запис</h1>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Жанри</label>
+        <div class="genre-checkbox-grid">
+            @foreach (var genre in genreList)
+            {
+                <label class="genre-checkbox-item">
+                    <input type="checkbox"
+                           name="SelectedGenreIds"
+                           value="@genre.Id"
+                           @(Model.SelectedGenreIds != null && Model.SelectedGenreIds.Contains(genre.Id) ? "checked" : null) />
+                    <span>@genre.Name</span>
+                </label>
+            }
+        </div>
+        <span asp-validation-for="SelectedGenreIds" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ReleaseYear" class="form-label"></label>
+        <input asp-for="ReleaseYear" class="form-control" />
+        <span asp-validation-for="ReleaseYear" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ContentType" class="form-label"></label>
+        <select asp-for="ContentType" asp-items="contentTypes" class="form-select"></select>
+        <span asp-validation-for="ContentType" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CountryName" class="form-label"></label>
+        <input asp-for="CountryName" class="form-control" />
+        <span asp-validation-for="CountryName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DirectorName" class="form-label"></label>
+        <input asp-for="DirectorName" class="form-control" />
+        <span asp-validation-for="DirectorName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ActorsInput" class="form-label"></label>
+        <input asp-for="ActorsInput" class="form-control" />
+        <span asp-validation-for="ActorsInput" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" asp-items="statuses" class="form-select"></select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PosterUrl" class="form-label"></label>
+        <input asp-for="PosterUrl" class="form-control" />
+        <span asp-validation-for="PosterUrl" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TrailerUrl" class="form-label"></label>
+        <input asp-for="TrailerUrl" class="form-control" />
+        <span asp-validation-for="TrailerUrl" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Додати</button>
+    <a asp-action="Index" class="btn btn-outline-light">Назад</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

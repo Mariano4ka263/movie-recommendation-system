@@ -1,0 +1,49 @@
+﻿@model MovieRecommendationSystem.ViewModels.MovieRecommendationsPageViewModel
+
+@{
+    ViewData["Title"] = "Рекомендації";
+}
+
+<div class="page-title-row">
+    <h1>Рекомендації</h1>
+</div>
+
+<div class="movie-grid">
+    @foreach (var item in Model.Recommendations)
+    {
+        <div class="movie-card">
+            <div class="movie-card-top"
+                 style="background:
+                         linear-gradient(rgba(2, 8, 23, 0.18), rgba(2, 8, 23, 0.62)),
+                         url('@item.Movie.PosterUrlOrDefault') center/cover no-repeat;">
+            </div>
+
+            <div class="movie-card-body">
+                <div class="movie-card-title">
+                    @item.Movie.Title
+                </div>
+
+                <div class="movie-badges">
+                    <span class="badge-soft">@item.Movie.GenresText</span>
+                    <span class="badge-soft">@item.Movie.ReleaseYear</span>
+                </div>
+
+                <div class="movie-card-text">
+                    @(string.IsNullOrWhiteSpace(item.RecommendationReason)
+                                    ? "Рекомендовано на основі рейтингу."
+                                    : item.RecommendationReason)
+                </div>
+
+                <div class="movie-card-footer">
+                    <div class="movie-rating">
+                        ⭐ @(item.Movie.AverageRating > 0 ? item.Movie.AverageRating.ToString("0.0") : "Немає")
+                    </div>
+
+                    <a asp-action="Details" asp-route-id="@item.Movie.Id" class="btn btn-outline-light">
+                        Детальніше
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

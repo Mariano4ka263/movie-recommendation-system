@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Головна";
+}
+
+<div class="hero-section">
+    <div class="hero-content content-panel">
+        <div class="section-kicker">Курсова робота</div>
+
+        <h1 class="hero-title">
+            ФІЛЬМИ ТА СЕРІАЛИ,
+            <span class="gradient-text">ЯКІ ВАРТО ПЕРЕГЛЯНУТИ</span>
+        </h1>
+
+        <p class="hero-text">
+            Сучасний вебзастосунок для зберігання фільмів і серіалів, виставлення оцінок,
+            перегляду рейтингів та отримання рекомендацій на основі вподобань користувачів.
+        </p>
+
+        <div class="hero-actions">
+            <a asp-controller="Movies" asp-action="Index" class="btn btn-primary">
+                Перейти до каталогу
+            </a>
+
+            <a asp-controller="Movies" asp-action="Recommendations" class="btn btn-success">
+                Відкрити рекомендації
+            </a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">Каталог</div>
+                <div class="stat-label">фільмів і серіалів</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">Оцінки</div>
+                <div class="stat-label">користувачів</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">Рекомендації</div>
+                <div class="stat-label">за жанрами та рейтингом</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-poster content-panel">
+        <img src="~/images/hero-home.jpg" alt="Головне фото" />
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model MovieRecommendationSystem.ViewModels.CreateRatingViewModel
+
+@{
+    ViewData["Title"] = "Додати оцінку";
+}
+
+<div class="page-title-row">
+    <h1>Додати оцінку</h1>
+</div>
+
+<h4>Оцінювання фільму / серіалу</h4>
+<hr />
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <input asp-for="MovieId" type="hidden" />
+    <input asp-for="MovieTitle" type="hidden" />
+
+    <div class="mb-3">
+        <label class="form-label">Користувач</label>
+        <input class="form-control" value="@User.Identity?.Name" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Фільм / серіал</label>
+        <input class="form-control" value="@Model.MovieTitle" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Score" class="form-label"></label>
+        <input asp-for="Score" class="form-control" min="1" max="10" type="number" />
+        <span asp-validation-for="Score" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Додати</button>
+    <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.MovieId" class="btn btn-outline-light">
+        Назад
+    </a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
